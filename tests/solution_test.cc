@@ -3,95 +3,75 @@
 #include <vector>
 
 
+TEST(Q3_Student, HandlesValue) {
+    std::vector<int> vec={1,2,3,4,5};
+    int n=10;
+    SinglyLinkedList s(vec,n);
+    
+    testing::internal::CaptureStdout();
+    s.print();
+    std::string output = testing::internal::GetCapturedStdout();
 
-TEST(FindPrimeTest, HandlesPositiveNumberSeive) {
-  Solution solution;
+    EXPECT_EQ(output, "1 2 3 4 5 ");
 
-  int num=5;
-  std::vector<int> vect1{2,3,5};
-  std::vector<int> cmp;
-  for (auto n:solution.Prime_SieveOfEratosthenes(num)){
-    cmp.push_back (n);
-  }
-  ASSERT_EQ(cmp.size(), vect1.size()) << "Vectors x and y are of unequal length";
-  for (unsigned int i = 0; i < vect1.size(); ++i){
-    EXPECT_EQ(cmp[i],vect1[i]);
-  } 
-}
+    EXPECT_EQ((s.empty()), false);
+    EXPECT_EQ(s.size(), 5);
 
-TEST(FindPrimeTest, HandlesPositiveNumberRecursive) {
-  Solution solution;
+    s.push_back(6);
+    testing::internal::CaptureStdout();
+    s.print();
+    std::string output1 = testing::internal::GetCapturedStdout();
 
-  int num=5;
-  std::vector<int> vect1{2,3,5};
-  std::vector<int> cmp;
-  for (auto n:solution.FindPrimeRecursive(num)){
-    cmp.push_back (n);
-  }
-  ASSERT_EQ(cmp.size(), vect1.size()) << "Vectors x and y are of unequal length";
-  for (unsigned int i = 0; i < vect1.size(); ++i){
-    EXPECT_EQ(cmp[i],vect1[i]);
-  } 
-}
+    EXPECT_EQ(output1, "1 2 3 4 5 6 ");
 
+    s.push_front(0);
+    testing::internal::CaptureStdout();
+    s.print();
+    std::string output2 = testing::internal::GetCapturedStdout();
 
-TEST(FindPrimeTest, HandlesNegativeNumberSeive) {
-  Solution solution;
+    EXPECT_EQ(output2, "0 1 2 3 4 5 6 ");
 
-  int num=-1;
-  std::vector<int> vect1{-1};
-  std::vector<int> cmp;
-  for (auto n:solution.Prime_SieveOfEratosthenes(num)){
-    cmp.push_back (n);
-  }
-  ASSERT_EQ(cmp.size(), vect1.size()) << "Vectors x and y are of unequal length";
-  for (unsigned int i = 0; i < vect1.size(); ++i){
-    EXPECT_EQ(cmp[i],vect1[i]);
-  } 
-}
+    s.pop_back();
+    testing::internal::CaptureStdout();
+    s.print();
+    std::string output3 = testing::internal::GetCapturedStdout();
 
-TEST(FindPrimeTest, HandlesNegativeNumberRecursive) {
-  Solution solution;
+    EXPECT_EQ(output3, "0 1 2 3 4 5 ");
 
-  int num=-1;
-  std::vector<int> vect1{-1};
-  std::vector<int> cmp;
-  for (auto n:solution.FindPrimeRecursive(num)){
-    cmp.push_back (n);
-  }
-  ASSERT_EQ(cmp.size(), vect1.size()) << "Vectors x and y are of unequal length";
-  for (unsigned int i = 0; i < vect1.size(); ++i){
-    EXPECT_EQ(cmp[i],vect1[i]);
-  } 
-}
+    s.pop_front();
+    testing::internal::CaptureStdout();
+    s.print();
+    std::string output4 = testing::internal::GetCapturedStdout();
 
+    EXPECT_EQ(output4, "1 2 3 4 5 ");
 
-TEST(FindPrimeTest, HandlesZeroSeive) {
-  Solution solution;
+    s.erase(s.GetIthPointer(5));
+    testing::internal::CaptureStdout();
+    s.print();
+    std::string output5 = testing::internal::GetCapturedStdout();
 
-  int num=0;
-  std::vector<int> vect1{-1};
-  std::vector<int> cmp;
-  for (auto n:solution.Prime_SieveOfEratosthenes(num)){
-    cmp.push_back (n);
-  }
-  ASSERT_EQ(cmp.size(), vect1.size()) << "Vectors x and y are of unequal length";
-  for (unsigned int i = 0; i < vect1.size(); ++i){
-    EXPECT_EQ(cmp[i],vect1[i]);
-  } 
-}
+    EXPECT_EQ(output5, "1 2 3 4 ");
 
-TEST(FindPrimeTest, HandlesZerorRecursive) {
-  Solution solution;
+    s.insert_after(s.GetIthPointer(4),5);
+    testing::internal::CaptureStdout();
+    s.print();
+    std::string output6 = testing::internal::GetCapturedStdout();
 
-  int num=0;
-  std::vector<int> vect1{-1};
-  std::vector<int> cmp;
-  for (auto n:solution.FindPrimeRecursive(num)){
-    cmp.push_back (n);
-  }
-  ASSERT_EQ(cmp.size(), vect1.size()) << "Vectors x and y are of unequal length";
-  for (unsigned int i = 0; i < vect1.size(); ++i){
-    EXPECT_EQ(cmp[i],vect1[i]);
-  } 
+    EXPECT_EQ(output6, "1 2 3 4 5 ");
+
+    s.reverse();
+    testing::internal::CaptureStdout();
+    s.print();
+    std::string output7 = testing::internal::GetCapturedStdout();
+
+    EXPECT_EQ(output7, "5 4 3 2 1 ");
+
+   //Checking Tail Pointer 
+   ListNode* a=s.GetBackPointer();
+   EXPECT_EQ(a->val, s.tail_->val);
+
+   //Checking Head Pointer
+   ListNode* b=s.GetIthPointer(5);
+   EXPECT_EQ(b->val, s.head_->val);
+
 }
